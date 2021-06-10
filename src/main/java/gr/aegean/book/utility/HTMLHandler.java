@@ -47,7 +47,7 @@ public class HTMLHandler {
 		answer += "<th>Category</th><th>Summary</th><th>Language</th>";
 		answer += "<th>Pub. date</th>";
 		answer += "</tr>\n";
-		for (Book book: books) answer += createBookRow(book);
+		if (books != null) for (Book book: books) answer += createBookRow(book);
 		answer += "</table>\n";
 		answer += "</body>\n";
 		
