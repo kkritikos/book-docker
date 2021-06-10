@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+        mysql:
+                image: "mysql_book:latest"
+                volumes:
+                        - mysql:/var/lib/mysql
+                networks:
+                        - book-net
+        tomcat:
+                image: "tomcat_book:latest"
+                ports:
+                        - "8080:8080"
+                networks:
+                        - book-net
+networks:
+        book-net: {}
+volumes:
+        mysql: {}
