@@ -5,6 +5,8 @@ services:
                 build:
                         context: .
                         dockerfile: Dockerfile
+                environment:
+                  CATALINA_OPTS: '-DDB_USER=${DB_USER} -DDB_PWD=${DB_PWD}'
                 ports:
                         - "8080:8080"
                 networks:
@@ -12,10 +14,9 @@ services:
                 depends_on: 
                         - mysql
         mysql:
-                image: "mysql_book:latest"
-                build:
-                        context: ./mysql
-                        dockerfile: Dockerfile_mysql
+                image: "mysql"
+                environment: 
+                  MYSQL_ROOT_PASSWORD:
                 volumes:
                         - mysql:/var/lib/mysql
                 networks:

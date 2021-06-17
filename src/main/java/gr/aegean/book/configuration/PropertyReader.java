@@ -46,6 +46,12 @@ public class PropertyReader {
 			login = getDefaultValueIfNull(props.getProperty("login"),"");
 			pwd = getDefaultValueIfNull(props.getProperty("pwd"),"");
 		}
+		
+		String loginVar = System.getenv("DB_USER");
+		if (loginVar != null) login = loginVar;
+		
+		String pwdVar = System.getenv("DB_PWD");
+		if (pwdVar != null) pwd = pwdVar;
 	}
 	
 	public static String getDbName() {
