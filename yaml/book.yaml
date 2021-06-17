@@ -19,4 +19,16 @@ spec:
         image: kkritikos/book:latest-stable #container image
         ports:
         - containerPort: 30000 #container port
-
+        env:
+         - name: DB_USER
+           valueFrom:
+             secretKeyRef:
+               name: user-secret
+               key: username
+         - name: DB_PWD
+           valueFrom:
+             secretKeyRef:
+               name: user-secret
+               key: password
+         - name: JAVA_OPTS
+           value: "-DDB_USER=$(DB_USER) -DDB_PWD=$(DB_PWD)"
