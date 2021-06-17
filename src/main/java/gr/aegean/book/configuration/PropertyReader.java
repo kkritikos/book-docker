@@ -47,10 +47,10 @@ public class PropertyReader {
 			pwd = getDefaultValueIfNull(props.getProperty("pwd"),"");
 		}
 		
-		String loginVar = System.getenv("DB_USER");
+		String loginVar = System.getProperty("DB_USER");
 		if (loginVar != null) login = loginVar;
 		
-		String pwdVar = System.getenv("DB_PWD");
+		String pwdVar = System.getProperty("DB_PWD");
 		if (pwdVar != null) pwd = pwdVar;
 	}
 	

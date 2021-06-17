@@ -6,9 +6,9 @@ services:
                         context: .
                         dockerfile: Dockerfile
                 environment:
-                  CATALINA_OPTS: '-DDB_USER=${DB_USER} -DDB_PWD=${DB_PWD}'
+                  JAVA_OPTS: "-DDB_USER=${DB_USER} -DDB_PWD=${DB_PWD}"
                 ports:
-                        - "8080:8080"
+                        - "80:30000"
                 networks:
                         - book-net
                 depends_on: 
@@ -16,9 +16,10 @@ services:
         mysql:
                 image: "mysql"
                 environment: 
-                  MYSQL_ROOT_PASSWORD:
+                  - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
                 volumes:
                         - mysql:/var/lib/mysql
+                        - ./mysql:/docker-entrypoint-initdb.d
                 networks:
                         - book-net
 networks:
