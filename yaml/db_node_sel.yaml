@@ -18,6 +18,8 @@ spec:
       labels:
         app: mysql #label for the corresponding app
     spec: #replica spec part
+      nodeSelector:
+        componentType: DB
       containers:
       - name: mysql #container name
         image: mysql #container image
