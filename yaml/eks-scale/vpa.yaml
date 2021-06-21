@@ -1,0 +1,19 @@
+apiVersion: "autoscaling.k8s.io/v1"
+kind: VerticalPodAutoscaler
+metadata:
+  name: book-vpa #auto-scaler name
+spec:
+  targetRef: #we focus on hamster Deployment
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: book
+  resourcePolicy:
+    containerPolicies:
+      - containerName: ‘*’ #on any container of hamster Deployment
+        minAllowed: #minimum resources allowed
+          cpu: 100m
+          memory: 50Mi
+        maxAllowed: #maximum resources allowed
+          cpu: 2
+          memory: 1Gi
+        controlledResources: ["cpu", "memory"]
