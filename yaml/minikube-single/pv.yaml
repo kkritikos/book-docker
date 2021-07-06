@@ -1,10 +1,10 @@
 apiVersion: v1
-kind: PersistentVolume
+kind: PersistentVolume 
 metadata:
   name: pv-mysql
   labels:
-    app: mysql
-spec:
+    app: mysql #maps to mysql app
+spec: #perfectly matches mysql_claim.yaml
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem

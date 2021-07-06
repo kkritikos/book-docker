@@ -8,13 +8,13 @@ spec:
   replicas: 2 #create 2 replicas
   selector:
     matchLabels:
-      app: book #select nginx app
+      app: book #select book app
   template: #template for the replica/pod specification
     metadata:
       labels:
         app: book #label for the corresponding app
     spec: #replica spec part
-      nodeSelector:
+      nodeSelector: #selecting only nodes with this component type, i.e., that will host book containers
         componentType: APP
       containers:
       - name: book #container name

@@ -8,8 +8,8 @@ spec:
   volumeMode: Filesystem #a file system should be mounted
   resources:
     requests:
-      storage: 5Gi #need 8 GBs of storage
+      storage: 5Gi #need 5 GBs of storage
   selector:
-    matchLabels: #select only persistent volumes for stable releases in dev environments
+    matchLabels: #claim only for mysql app
       app: mysql
 
