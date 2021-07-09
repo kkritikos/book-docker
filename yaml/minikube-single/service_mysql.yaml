@@ -5,7 +5,7 @@ metadata:
 spec:
   clusterIP: None
   selector: #pod selector
-    app: mysql
+    app: mysql #selecting mysql pod on which the headless service will be applied
   ports: #ports to be exploited
     - protocol: TCP
       port: 3306 

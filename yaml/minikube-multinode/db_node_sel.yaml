@@ -18,7 +18,7 @@ spec:
       labels:
         app: mysql #label for the corresponding app
     spec: #replica spec part
-      nodeSelector:
+      nodeSelector: #selecting cluster node that will host the mysql container
         componentType: DB
       containers:
       - name: mysql #container name

@@ -8,7 +8,7 @@ spec:
   replicas: 2 #create 2 replicas
   selector:
     matchLabels:
-      app: book #select nginx app
+      app: book #select book app
   template: #template for the replica/pod specification
     metadata:
       labels:
@@ -19,7 +19,7 @@ spec:
         image: kkritikos/book:latest-stable #container image
         ports:
         - containerPort: 30000 #container port
-        env:
+        env: #get environment vars from specific secret
          - name: DB_USER
            valueFrom:
              secretKeyRef:
@@ -30,5 +30,5 @@ spec:
              secretKeyRef:
                name: user-secret
                key: password
-         - name: JAVA_OPTS
+         - name: JAVA_OPTS #pass previous environment vars as system properties to tomcat
            value: "-DDB_USER=$(DB_USER) -DDB_PWD=$(DB_PWD)"
