@@ -38,4 +38,4 @@ spec:
       volumes: 
         - name: init #this volume maps to a secret that incorporates the tomcat-users.xml file
           secret:
-            secretName: sql-secret
+            secretName: tomcat-secret
