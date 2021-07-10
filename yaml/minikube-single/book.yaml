@@ -19,6 +19,9 @@ spec:
         image: kkritikos/book:latest-stable #container image
         ports:
         - containerPort: 30000 #container port
+        - volumeMounts: #mounting of one volumes
+          - name: init
+            mountPath: /usr/local/tomcat/conf
         env: #get environment vars from specific secret
          - name: DB_USER
            valueFrom:
@@ -32,3 +35,7 @@ spec:
                key: password
          - name: JAVA_OPTS #pass previous environment vars as system properties to tomcat
            value: "-DDB_USER=$(DB_USER) -DDB_PWD=$(DB_PWD)"
+      - volumes: 
+        - name: init #this volume maps to a secret that incorporates the tomcat-users.xml file
+          secret:
+            secretName: sql-secret
