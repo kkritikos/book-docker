@@ -9,3 +9,4 @@ spec:
   - name: load-injector
     image: kkritikos/ab:latest
     args: ["-c 1", "-n 10", "http://192.168.49.2:31238/book/rest/books"]
+    restartPolicy: Never
