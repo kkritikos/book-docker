@@ -35,7 +35,7 @@ spec:
         volumeMounts: #mounting of one volumes
           - name: init
             mountPath: /usr/local/tomcat/conf
-      - volumes: 
+      volumes: 
         - name: init #this volume maps to a secret that incorporates the tomcat-users.xml file
           secret:
             secretName: sql-secret
