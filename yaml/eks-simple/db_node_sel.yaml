@@ -36,6 +36,13 @@ spec:
             mountPath: /var/lib/mysql
           - name: init
             mountPath: /docker-entrypoint-initdb.d
+        resources:
+          limits:
+            memory: 4Gi
+            cpu: 2000m
+          requests:
+            memory: 1Gi
+            cpu: 1000m
       volumes:
         - name: mysql-vol
           persistentVolumeClaim:
