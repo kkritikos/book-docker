@@ -33,3 +33,17 @@ spec:
                key: password
          - name: JAVA_OPTS
            value: "-DDB_USER=$(DB_USER) -DDB_PWD=$(DB_PWD)"
+        volumeMounts: #mounting of one volumes
+          - name: init
+            mountPath: /usr/local/tomcat/conf
+        resources:
+          limits:
+            memory: 2Gi
+            cpu: 1
+          requests:
+            memory: 1Gi
+            cpu: 500m
+      volumes: 
+        - name: init #this volume maps to a secret that incorporates the config files of tomcat
+          secret:
+            secretName: tomcat-secret
