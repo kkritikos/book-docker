@@ -8,4 +8,4 @@ spec:
   storageClassName: gp2
   resources:
     requests:
-      storage: 4Gi #need 8 GBs of storage
+      storage: 4Gi #need 4 GBs of storage
