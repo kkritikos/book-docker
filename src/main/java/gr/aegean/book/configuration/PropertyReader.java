@@ -52,6 +52,17 @@ public class PropertyReader {
 		
 		String pwdVar = System.getProperty("DB_PWD");
 		if (pwdVar != null) pwd = pwdVar;
+		
+		String hostVar = System.getProperty("DB_PORT");
+		if (hostVar != null) {
+			if (hostVar.contains(":")) {
+				hostVar = hostVar.substring(hostVar.indexOf(":") + 3);
+				int index = hostVar.indexOf(":");
+				dbHost = hostVar.substring(0,index);
+				dbPort = hostVar.substring(index+1);
+			}
+			else dbHost = hostVar;
+		}
 	}
 	
 	public static String getDbName() {
