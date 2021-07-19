@@ -22,6 +22,10 @@ public class DBHandler {
 			return con;
 		}
 		catch(Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.out.println(" " + PropertyReader.getDbHost() + " " + PropertyReader.getDbPort());
 			throw new MyInternalServerErrorException("Cannot connect to underlying database");
 		}
 	}
