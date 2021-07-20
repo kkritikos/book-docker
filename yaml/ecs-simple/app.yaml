@@ -1,0 +1,329 @@
+{
+  "ipcMode": null,
+  "executionRoleArn": "arn:aws:iam::049437420439:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "dnsSearchDomains": null,
+      "environmentFiles": null,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": null,
+        "options": {
+          "awslogs-group": "/ecs/app_book",
+          "awslogs-region": "us-west-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "entryPoint": [
+        "sh",
+        "-c"
+      ],
+      "portMappings": [],
+      "command": [
+        "/bin/sh -c 'echo $0 $@ > /test/init.sql' $DB_SCRIPT"
+      ],
+      "linuxParameters": null,
+      "cpu": 0,
+      "environment": [],
+      "resourceRequirements": null,
+      "ulimits": null,
+      "dnsServers": null,
+      "mountPoints": [
+        {
+          "readOnly": null,
+          "containerPath": "/test",
+          "sourceVolume": "init"
+        }
+      ],
+      "workingDirectory": null,
+      "secrets": [
+        {
+          "valueFrom": "arn:aws:secretsmanager:us-west-2:049437420439:secret:mySqlScript-p99akv:value::",
+          "name": "DB_SCRIPT"
+        }
+      ],
+      "dockerSecurityOptions": null,
+      "memory": 128,
+      "memoryReservation": null,
+      "volumesFrom": [],
+      "stopTimeout": null,
+      "image": "bash",
+      "startTimeout": null,
+      "firelensConfiguration": null,
+      "dependsOn": null,
+      "disableNetworking": true,
+      "interactive": null,
+      "healthCheck": null,
+      "essential": false,
+      "links": null,
+      "hostname": null,
+      "extraHosts": null,
+      "pseudoTerminal": null,
+      "user": null,
+      "readonlyRootFilesystem": null,
+      "dockerLabels": null,
+      "systemControls": null,
+      "privileged": null,
+      "name": "db_init"
+    },
+    {
+      "dnsSearchDomains": null,
+      "environmentFiles": null,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": null,
+        "options": {
+          "awslogs-group": "/ecs/app_book",
+          "awslogs-region": "us-west-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "entryPoint": null,
+      "portMappings": [],
+      "command": [
+        "--default-authentication-plugin=mysql_native_password"
+      ],
+      "linuxParameters": null,
+      "cpu": 0,
+      "environment": [
+        {
+          "name": "MYSQL_RANDOM_ROOT_PASSWORD",
+          "value": "yes"
+        }
+      ],
+      "resourceRequirements": null,
+      "ulimits": null,
+      "dnsServers": null,
+      "mountPoints": [
+        {
+          "readOnly": true,
+          "containerPath": "/docker-entrypoint-initdb.d",
+          "sourceVolume": "init"
+        },
+        {
+          "readOnly": null,
+          "containerPath": "/var/lib/mysql",
+          "sourceVolume": "mysql-vol"
+        }
+      ],
+      "workingDirectory": null,
+      "secrets": null,
+      "dockerSecurityOptions": null,
+      "memory": 600,
+      "memoryReservation": 248,
+      "volumesFrom": [],
+      "stopTimeout": null,
+      "image": "mysql",
+      "startTimeout": null,
+      "firelensConfiguration": null,
+      "dependsOn": [
+        {
+          "containerName": "db_init",
+          "condition": "SUCCESS"
+        }
+      ],
+      "disableNetworking": null,
+      "interactive": null,
+      "healthCheck": null,
+      "essential": true,
+      "links": null,
+      "hostname": "mysql",
+      "extraHosts": null,
+      "pseudoTerminal": null,
+      "user": null,
+      "readonlyRootFilesystem": null,
+      "dockerLabels": null,
+      "systemControls": null,
+      "privileged": null,
+      "name": "db"
+    },
+    {
+      "dnsSearchDomains": null,
+      "environmentFiles": null,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": null,
+        "options": {
+          "awslogs-group": "/ecs/app_book",
+          "awslogs-region": "us-west-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "entryPoint": null,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "protocol": "tcp",
+          "containerPort": 30000
+        }
+      ],
+      "command": null,
+      "linuxParameters": null,
+      "cpu": 0,
+      "environment": [
+        {
+          "name": "CATALINA_OPTS",
+          "value": "\"-DDB_PWD=$DB_PWD\""
+        },
+        {
+          "name": "JAVA_OPTS",
+          "value": "\"-DDB_USER=$DB_USER\""
+        }
+      ],
+      "resourceRequirements": null,
+      "ulimits": null,
+      "dnsServers": null,
+      "mountPoints": [],
+      "workingDirectory": null,
+      "secrets": [
+        {
+          "valueFrom": "arn:aws:secretsmanager:us-west-2:049437420439:secret:mySqlSecret-RnGEJy:password::",
+          "name": "DB_PWD"
+        },
+        {
+          "valueFrom": "arn:aws:secretsmanager:us-west-2:049437420439:secret:mySqlSecret-RnGEJy:username::",
+          "name": "DB_USER"
+        }
+      ],
+      "dockerSecurityOptions": null,
+      "memory": 1024,
+      "memoryReservation": 512,
+      "volumesFrom": [],
+      "stopTimeout": null,
+      "image": "kkritikos/book:latest",
+      "startTimeout": null,
+      "firelensConfiguration": null,
+      "dependsOn": [
+        {
+          "containerName": "db",
+          "condition": "START"
+        }
+      ],
+      "disableNetworking": null,
+      "interactive": null,
+      "healthCheck": null,
+      "essential": true,
+      "links": [
+        "db:db"
+      ],
+      "hostname": null,
+      "extraHosts": null,
+      "pseudoTerminal": null,
+      "user": null,
+      "readonlyRootFilesystem": null,
+      "dockerLabels": null,
+      "systemControls": null,
+      "privileged": null,
+      "name": "book"
+    }
+  ],
+  "placementConstraints": [],
+  "memory": null,
+  "taskRoleArn": "arn:aws:iam::049437420439:role/ECS_Full",
+  "compatibilities": [
+    "EXTERNAL",
+    "EC2"
+  ],
+  "taskDefinitionArn": "arn:aws:ecs:us-west-2:049437420439:task-definition/app_book:9",
+  "family": "app_book",
+  "requiresAttributes": [
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "ecs.capability.execution-role-awslogs"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "ecs.capability.secrets.asm.environment-variables"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.17"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.21"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "ecs.capability.docker-plugin.local"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.task-iam-role"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "ecs.capability.container-ordering"
+    },
+    {
+      "targetId": null,
+      "targetType": null,
+      "value": null,
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.25"
+    }
+  ],
+  "pidMode": null,
+  "requiresCompatibilities": [
+    "EC2"
+  ],
+  "networkMode": "bridge",
+  "cpu": null,
+  "revision": 9,
+  "status": "ACTIVE",
+  "inferenceAccelerators": null,
+  "proxyConfiguration": null,
+  "volumes": [
+    {
+      "fsxWindowsFileServerVolumeConfiguration": null,
+      "efsVolumeConfiguration": null,
+      "name": "init",
+      "host": null,
+      "dockerVolumeConfiguration": {
+        "autoprovision": null,
+        "labels": null,
+        "scope": "task",
+        "driver": "local",
+        "driverOpts": null
+      }
+    },
+    {
+      "fsxWindowsFileServerVolumeConfiguration": null,
+      "efsVolumeConfiguration": null,
+      "name": "mysql-vol",
+      "host": null,
+      "dockerVolumeConfiguration": {
+        "autoprovision": null,
+        "labels": null,
+        "scope": "task",
+        "driver": "local",
+        "driverOpts": null
+      }
+    }
+  ]
+}
