@@ -3,9 +3,13 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>gr.aegean</groupId>
-  <artifactId>book</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <parent>
+    <groupId>gr.aegean</groupId>
+   <artifactId>book</artifactId>
+   <version>0.1</version>
+  </parent>
+
+  <artifactId>book-rest</artifactId>
   <packaging>war</packaging>
   <properties>
   		<!-- Maven and Java build options -->
@@ -24,8 +28,8 @@
 		<guava.version>14.0-rc2</guava.version>
 		<junit.version>4.7</junit.version>
 		<jdk.version>1.15</jdk.version>
-		<maven.compiler.source>1.8</maven.compiler.source>
-     	<maven.compiler.target>1.8</maven.compiler.target>
+		<jaxb.version>2.3.1</jaxb.version>
+		<jaxws.version>2.3.1</jaxws.version>
   </properties>
   
   <build>
@@ -36,13 +40,59 @@
         		<artifactId>maven-war-plugin</artifactId>
 				<version>${plugin.war.version}</version>
 				<configuration>
-				<warName>${project.artifactId}</warName>
+				<warName>${project.parent.artifactId}</warName>
 				</configuration>
 			</plugin>
+			<plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven3-plugin</artifactId>
+        <configuration>
+        		<skip>${skipImage}</skip>
+		        <container>
+		          <containerId>tomcat8x</containerId>
+		          <type>remote</type>
+		        </container>
+		        <configuration>
+		          <type>runtime</type>
+		          <properties>
+		            <cargo.hostname>${remote.hostname}</cargo.hostname>
+		            <cargo.protocol>${remote.protocol}</cargo.protocol>
+		            <cargo.servlet.port>${remote.port}</cargo.servlet.port>
+		            <cargo.remote.username>${remote.user}</cargo.remote.username>
+		            <cargo.remote.password>${remote.pass}</cargo.remote.password>
+		          </properties>
+		        </configuration>
+		          <deployables>
+		            <deployable>
+		                <groupId>${project.groupId}</groupId>
+		                <artifactId>book-rest</artifactId>
+		                <type>war</type>
+		                <properties>
+		            		<context>book</context>
+		        		</properties>
+              		</deployable>
+		          </deployables>
+      		  </configuration>
+        <executions>
+          <execution>
+            <id>deploy-cargo</id>
+            <phase>install</phase>
+            <goals>
+              <goal>deploy</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+			
 		</plugins>
 	</build>
   
   <dependencies>
+      <dependency>
+      	<groupId>gr.aegean</groupId>
+      	<artifactId>book-domain</artifactId>
+      	<version>0.1</version>
+      </dependency>
 	  <dependency>
     	<groupId>commons-io</groupId>
     	<artifactId>commons-io</artifactId>
@@ -110,12 +160,12 @@
 	    <dependency>
 		    <groupId>javax.xml.bind</groupId>
 		    <artifactId>jaxb-api</artifactId>
-		    <version>2.3.1</version>
+		    <version>${jaxb.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.sun.xml.bind</groupId>
 		    <artifactId>jaxb-impl</artifactId>
-		    <version>2.3.1</version>
+		    <version>${jaxb.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.javassist</groupId>
@@ -149,7 +199,7 @@
 	<dependency>
 	    <groupId>javax.xml.ws</groupId>
 	    <artifactId>jaxws-api</artifactId>
-	    <version>2.3.1</version>
+	    <version>${jaxws.version}</version>
 	</dependency>
 	
 	<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
@@ -158,8 +208,6 @@
 	    <artifactId>mysql-connector-java</artifactId>
 	    <version>${mysql.version}</version>
 	</dependency>
-	
-    
   </dependencies>
   
   <pluginRepositories>
