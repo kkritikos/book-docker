@@ -127,7 +127,7 @@
       "healthCheck": null,
       "essential": true,
       "links": null,
-      "hostname": "mysql",
+      "hostname": "mysql.mysqlns",
       "extraHosts": null,
       "pseudoTerminal": null,
       "user": null,
@@ -224,7 +224,7 @@
     "EXTERNAL",
     "EC2"
   ],
-  "taskDefinitionArn": "arn:aws:ecs:us-west-2:049437420439:task-definition/app_book:9",
+  "taskDefinitionArn": "arn:aws:ecs:us-west-2:049437420439:task-definition/app_book:10",
   "family": "app_book",
   "requiresAttributes": [
     {
@@ -294,7 +294,7 @@
   ],
   "networkMode": "bridge",
   "cpu": null,
-  "revision": 9,
+  "revision": 10,
   "status": "ACTIVE",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,
