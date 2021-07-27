@@ -18,6 +18,6 @@ public class NotFoundMapper implements
 	public static final String DESCRIPTION = "The requested resource could not be found";
 
 	public Response toResponse(NotFoundException ex) {
-		return Response.status(CODE).entity(ex.getMessage()).type("text/plain").build();
+		return ex.getResponse();
 	}
 }
