@@ -47,7 +47,7 @@ node {
         try{
         	sh 'docker network create book-net_' + postfix
         	sh 'docker run -d --name mysql_' + postfix + ' --network book-net_' + postfix + ' --network-alias mysql.mysqlns mysql:latest'
-        	sh 'docker run -d --name tomcat_' + postfix + ' --network book-net_' + postfix + ' --network-alias tomcat -e JAVA_OPTS=\"-DDB_USER=' + $DB_USER + ' -DDB_PWD=' + $DB_PWD + '\" ' + label
+        	sh("docker run -d --name tomcat_" + postfix + " --network book-net_" + postfix + " --network-alias tomcat -e JAVA_OPTS=\"-DDB_USER=$DB_USER -DDB_PWD=$DB_PWD'\" " + label)
         	mvnImage.inside('--network book-net_' + postfix){
       			sh 'mvn verify'   
         	}    
