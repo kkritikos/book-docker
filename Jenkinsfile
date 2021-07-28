@@ -74,7 +74,7 @@ node {
     }
     
     stage('Push') {
-    	docker.withRegistry('https://index.docker.io/v1/', 'github-cred') {
+    	docker.withRegistry('https://index.docker.io/v1/', 'Dockerhub') {
         	tomcatImage.push()
         }
     }
