@@ -81,8 +81,8 @@ node {
     
     stage('Deploy') {
     	environment {
-	        AWS_ACCESS_KEY = credentials('ACCESS_KEY')
-        	AWS_SECRET_KEY = credentials('SECRET_KEY')
+	        ACCESS_KEY = credentials('AWS_ACCESS_KEY')
+        	SECRET_KEY = credentials('AWS_SECRET_KEY')
 	    }
     	if (env.BRANCH_NAME=='ecs'){
     		sh "docker run --rm -v ~/.aws:/root/.aws -e AWS_ACCESS_KEY_ID=$ACCESS_KEY -e AWS_SECRET_ACCESS_KEY=$SECRET_KEY amazon/aws-cli:latest ecs update-service --cluster myCluster2 --service book-service --deployment-configuration maximumPercent=200,minimumHealthyPercent=50 --force-new-deployment"
