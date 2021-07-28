@@ -82,7 +82,8 @@ node {
     stage('Deploy') {
     	if (env.BRANCH_NAME=='ecs'){
     	    docker.image('amazon/aws-cli:latest').
-    	    run('--rm -it -v ~/.aws:/root/.aws', 'ecs --cluster myCluster2 --service book-service --deployment-configuration maximumPercentage=200,minimumHealthyPercentage=50 --force-new-deployment')
+    	    run('--rm -it --name aws -v ~/.aws:/root/.aws', 'ecs --cluster myCluster2 --service book-service --deployment-configuration maximumPercentage=200,minimumHealthyPercentage=50 --force-new-deployment')
+    	    sh 'docker logs aws'
     	}
 
     }
