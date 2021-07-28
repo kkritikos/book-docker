@@ -76,10 +76,8 @@ node {
     
     stage('Deploy') {
     	if (env.BRANCH_NAME=='ecs'){
-    	    docker.image('amazon/aws-cli:latest').withRun('-v ~/.aws:/root/.aws'){
-    	        sh 'amazon/aws-cli ecs --cluster myCluster2 --service book-service --deployment-configuration maximumPercentage=200,minimumHealthyPercentage=50 --force-new-deployment'
-    	    }
-
+    	    docker.image('amazon/aws-cli:latest').
+    	    withRun('-v ~/.aws:/root/.aws ecs --cluster myCluster2 --service book-service --deployment-configuration maximumPercentage=200,minimumHealthyPercentage=50 --force-new-deployment')
     	}
 
     }
