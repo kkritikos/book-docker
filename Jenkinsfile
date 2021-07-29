@@ -40,14 +40,9 @@ node {
     }
     
     stage('Test'){
-    	//environment {
-	        //DB_USER = credentials('DB_USER')
-        	//DB_PWD = credentials('DB_PWD')
-	    //}
         try{
         	sh 'docker network create book-net_' + postfix
         	sh 'docker run -d --name mysql_' + postfix + ' --network book-net_' + postfix + ' --network-alias mysql.mysqlns mysql:latest'
-        	//sh("docker run -d --name tomcat_" + postfix + " --network book-net_" + postfix + " --network-alias tomcat -e JAVA_OPTS=-DDB_USER=$DB_USER -e CATALINA_OPTS=-DDB_PWD=$DB_PWD " + label)
         	withCredentials([usernamePassword(credentialsId: 'MySQL', passwordVariable: 'DB_PWD', usernameVariable: 'DB_USER')]){
         		sh 'docker run -d --name tomcat_' + postfix + ' --network book-net_' + postfix + ' --network-alias tomcat -e "JAVA_OPTS=-DDB_USER=$DB_USER" -e "CATALINA_OPTS=-DDB_PWD=$DB_PWD" ' + label
         	}
@@ -85,12 +80,7 @@ node {
     	if (env.BRANCH_NAME=='ecs'){
     		withCredentials([usernamePassword(credentialsId: 'AWS', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
     			sh "docker run --rm -e AWS_ACCESS_KEY_ID=$USERNAME -e AWS_SECRET_ACCESS_KEY=$PASSWORD amazon/aws-cli:latest ecs update-service --cluster myCluster2 --service book-service --deployment-configuration maximumPercent=200,minimumHealthyPercent=50 --force-new-deployment"    
-    		}
-
-    		
-    	    //docker.image('amazon/aws-cli:latest').
-    	    //run('--rm -it --name aws -v ~/.aws:/root/.aws', 'ecs --cluster myCluster2 --service book-service --deployment-configuration maximumPercentage=200,minimumHealthyPercentage=50 --force-new-deployment')
-    	    
+    		}    	    
     	}
 
     }
