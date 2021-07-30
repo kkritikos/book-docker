@@ -3,10 +3,8 @@ package gr.aegean.book.service;
 import java.util.List;
 
 import gr.aegean.book.domain.Book;
-import gr.aegean.book.exception.AccessDeniedException;
 import gr.aegean.book.exception.BadRequestException;
 import gr.aegean.book.exception.MyInternalServerErrorException;
-import gr.aegean.book.exception.NotFoundException;
 import gr.aegean.book.utility.DBHandler;
 import gr.aegean.book.utility.HTMLHandler;
 
@@ -15,6 +13,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
