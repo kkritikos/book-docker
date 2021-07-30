@@ -35,7 +35,9 @@ node {
             mvnImage.inside(){
                 sh 'mvn -B -DskipTests clean package'
             }
-            sqlImage = docker.build("mysql:latest", "-f Dockerfile_mysql .")
+            if (env.BRANCH_NAME=='ecs'){
+            	sqlImage = docker.build("mysql:latest", "-f Dockerfile_mysql .")
+            }
             tomcatImage = docker.build(label, "-f Dockerfile .")
     }
     
