@@ -16,7 +16,7 @@ services:
         mysql:
                 image: "mysql"
                 environment: 
-                  - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+                  - MYSQL_RANDOM_ROOT_PASSWORD="yes"
                 volumes:
                         - mysql:/var/lib/mysql
                         - ./mysql:/docker-entrypoint-initdb.d
