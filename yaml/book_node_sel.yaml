@@ -5,8 +5,8 @@ metadata:
   labels:
     app: book #label to find the respective pods to manage
   annotations:
-    keel.sh/match-tag: true
-    keel.sh/policy: force
+    keel.sh/match-tag: "true"
+    keel.sh/policy: "force"
 spec:
   replicas: 2 #create 2 replicas
   selector:
