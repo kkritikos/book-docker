@@ -45,7 +45,7 @@ node {
         try{
         	sh 'docker network create book-net_' + postfix
         	if (env.BRANCH_NAME=='eks_ci-cd'){
-         		sh 'docker run -d --name mysql_' + postfix + ' --network book-net_' + postfix + ' --network-alias -v mysql:/var/lib/mysql -v `pwd`/mysql:/docker-entrypoint-initdb.d -e MYSQL_RANDOM_ROOT_PASSWORD=yes mysql'
+         		sh 'docker run -d --name mysql_' + postfix + ' --network book-net_' + postfix + ' --network-alias mysql -v mysql:/var/lib/mysql -v `pwd`/mysql:/docker-entrypoint-initdb.d -e MYSQL_RANDOM_ROOT_PASSWORD=yes mysql'
     		}
     		else if (env.BRANCH_NAME=='ecs'){
          		sh 'docker run -d --name mysql_' + postfix + ' --network book-net_' + postfix + ' --network-alias mysql.mysqlns mysql:latest'
