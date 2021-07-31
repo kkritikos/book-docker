@@ -11,7 +11,7 @@ spec:
   replicas: 2 #create 2 replicas
   strategy:
     rollingUpdate:
-      maxSurge: 0
+      maxSurge: 1
       maxUnavailable: 1
   selector:
     matchLabels:
