@@ -22,6 +22,7 @@ spec:
       containers:
       - name: book #container name
         image: kkritikos/book:latest-stable #container image
+        imagePullPolicy: Always # this is required to force pull image
         ports:
         - containerPort: 30000 #container port
         env:
